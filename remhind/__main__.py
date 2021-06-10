@@ -36,7 +36,9 @@ def main():
         default=XDG_CONFIG_HOME / 'remhind' / 'config')
     parser.add_argument('-d', '--database', type=pathlib.Path,
         default=XDG_CACHE_HOME / 'remhind.db')
-    parser.add_argument('-v', '--verbose', action='count', default=0)
+    parser.add_argument('-v', '--verbose',
+        help="use multiple -v or --verbose to elevate\
+        verbosity levels (-vvvv for DEBUG)", action='count', default=0)
 
     asyncio.run(monitor_file_events(parser.parse_args()))
 
