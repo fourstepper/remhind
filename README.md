@@ -26,6 +26,14 @@ indicating which directories holds your event files. Here's a simple example:
 pip install remhind
 ```
 
+## Running remhind as a systemd service
+
+For running remhind as a service, you can use the example systemd service located at `contrib/remhind.service`.
+
+`cp contrib/remhind.service ~/.config/systemd/user/remhind.service`
+
+`systemctl enable --now remhind`
+
 ## Acknowledgments
 
 This work has been inspired by the work of the [pimutils group](https://github.com/pimutils)
