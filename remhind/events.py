@@ -45,7 +45,7 @@ def _from_utc_timestamp(timestamp, tz=None):
         timestamp, tz=pytz.UTC).astimezone(tz)
 
 
-def parse_rule(component, icsfile):
+def parse_rule(component):
     if 'dtstart' in component:
         dtstart = _date2datetime(component['dtstart'].dt)
     elif 'due' in component:
@@ -63,10 +63,10 @@ def parse_rule(component, icsfile):
                     dtstart=dtstart))
         except ValueError as e:
             if 'UNTIL values must be specified in UTC' in repr(e):
-                logging.warning('The file %s doesn\'t have it\'s UNTIL value '
+                logging.warning('This event doesn\'t have it\'s UNTIL value '
                         'specified in the UTC format while dtstart is '
                         'timezone-aware. '
-                        'Skipping, as this isn\'t a problem', icsfile)
+                        'Skipping, as this isn\'t a problem')
                 logging.debug('Here is the full traceback: ', exc_info=e)
                 pass
 
@@ -348,7 +348,7 @@ class EventCollection:
             now = dt.datetime.now(tz=LOCAL_TZ).replace(second=0, microsecond=0)
             if latest_occurence:
                 now = max(now, latest_occurence)
-            rules = parse_rule(cal_obj, ics)
+            rules = parse_rule(cal_obj)
             for idx, occurence in enumerate(rules.xafter(now, 10, inc=True)):
                 _add_occurence(occurence, sequence + idx)
             self.db.add_last_occurence(cal_obj['uid'], occurence)
